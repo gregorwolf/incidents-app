@@ -1,12 +1,5 @@
 {
-  "xsappname": "incident-management",
-  "tenant-mode": "dedicated",
-  "description": "Security profile of called application",
   "scopes": [
-    {
-      "name": "uaa.user",
-      "description": "UAA"
-    },
     {
       "name": "$XSAPPNAME.support",
       "description": "support"
@@ -16,14 +9,23 @@
       "description": "admin"
     }
   ],
+  "attributes": [],
   "role-templates": [
     {
-      "name": "Token_Exchange",
-      "description": "UAA",
+      "name": "support",
+      "description": "generated",
       "scope-references": [
-        "uaa.user"
-      ]
+        "$XSAPPNAME.support"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "admin",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.admin"
+      ],
+      "attribute-references": []
     }
-  ],
-  "attributes": []
+  ]
 }
