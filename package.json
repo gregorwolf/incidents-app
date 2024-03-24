@@ -12,13 +12,15 @@
     "dummy": 0
   },
   "dependencies": {
+    "@sap/ams": "^1.15.1",
     "@sap/cds": ">=7",
-    "express": "^4",
+    "@sap/cds-hana": "^2",
     "@sap/xssec": "^3",
-    "@sap/cds-hana": "^2"
+    "express": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1.0.1",
+    "@sap/ams-dev": "^0.8.4",
     "@sap/cds-dk": "^7",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
