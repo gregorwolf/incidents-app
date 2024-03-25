@@ -56,8 +56,14 @@
   ],
   "cds": {
     "requires": {
-      "auth": {
-        "[development]": {
+      "[development]": {
+        "auth": {
+          "ams": {
+            "autoCompile": true,
+            "cache": {
+              "TTL": 0
+            }
+          },
           "users": {
             "alice": {
               "roles": [
@@ -69,11 +75,18 @@
               "roles": [
                 "support"
               ]
+            },
+            "customer": {
+              "roles": [
+                "authenticated-user"
+              ],
+              "attr": {
+                "customer": "1004161"
+              }
             }
           }
         }
-      },
-      "db": "hana"
+      }
     }
   },
   "private": true
