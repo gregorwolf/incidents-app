@@ -8,13 +8,20 @@ modules:
     path: gen/srv
     requires:
       - name: incidents-db
-      - name: uaa_incident-management
+      - name: incident-management-auth
+        parameters:
+          config:
+            credential-type: "X509_GENERATED"
+    properties:
+      AMS_DCL_ROOT: "ams/dcl"
     provides:
       - name: srv-api
         properties:
           srv-url: ${default-url}
     parameters:
-      buildpack: nodejs_buildpack
+      buildpacks:
+        - https://github.com/SAP/cloud-authorization-buildpack/releases/latest/download/opa_buildpack.zip
+        - nodejs_buildpack
     build-parameters:
       builder: npm
   - name: incidents-db-deployer
@@ -34,10 +41,6 @@ modules:
         parameters:
           service-key:
             name: incident-management_html_repo_host-key
-      - name: uaa_incident-management
-        parameters:
-          service-key:
-            name: uaa_incident-management-key
     parameters:
       content:
         instance:
@@ -45,11 +48,6 @@ modules:
             - Name: incident_management_capire_incidents_html_repo_host
               ServiceInstanceName: incident-management-html5-app-host-service
               ServiceKeyName: incident-management_html_repo_host-key
-              sap.cloud.service: incident-management
-            - Authentication: OAuth2UserTokenExchange
-              Name: incident_management_uaa_capire_incidents
-              ServiceInstanceName: incident-management-xsuaa-service
-              ServiceKeyName: uaa_incident-management-key
               sap.cloud.service: incident-management
           existing_destinations_policy: ignore
     build-parameters:
@@ -77,8 +75,7 @@ modules:
       commands:
         - npm install
         - npm run build:cf
-      supported-platforms:
-        []
+      supported-platforms: []
 resources:
   - name: incidents-db
     type: com.sap.xs.hdi-container
@@ -99,8 +96,7 @@ resources:
                 Type: HTTP
                 URL: https://ui5.sap.com
               - Authentication: NoAuthentication
-                HTML5.DynamicDestination: true
-                HTML5.ForwardAuthToken: true
+                HTML5.IASDependencyName: incidents-api
                 Name: capire_incidents-srv-api
                 ProxyType: Internet
                 Type: HTTP
@@ -118,16 +114,24 @@ resources:
       service: html5-apps-repo
       service-name: incident-management-html5-app-host-service
       service-plan: app-host
-  - name: uaa_incident-management
+  # - name: uaa_incident-management
+  #   type: org.cloudfoundry.managed-service
+  #   parameters:
+  #     path: ./xs-security.json
+  #     service: xsuaa
+  #     service-name: incident-management-xsuaa-service
+  #     service-plan: application
+  #     config:
+  #       xsappname: incidents-${org}-${space}
+  #       tenant-mode: dedicated
+  - name: incident-management-auth
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./xs-security.json
-      service: xsuaa
-      service-name: incident-management-xsuaa-service
+      service: identity
       service-plan: application
+      path: ./ias-config.json
       config:
-        xsappname: incidents-${org}-${space}
-        tenant-mode: dedicated
+        display-name: incidents-${org}-${space}
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

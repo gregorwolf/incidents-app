@@ -56,6 +56,11 @@
   ],
   "cds": {
     "requires": {
+      "[production]": {
+        "auth": {
+          "kind": "ias"
+        }
+      },
       "[development]": {
         "auth": {
           "ams": {
