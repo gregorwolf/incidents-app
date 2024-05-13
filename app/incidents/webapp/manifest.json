@@ -17,20 +17,28 @@
     },
     "crossNavigation": {
       "inbounds": {
-        "intent1": {
-          "signature": {
-            "parameters": {},
-            "additionalParameters": "allowed"
-          },
-          "semanticObject": "Incidents",
-          "action": "display"
-        },
         "incidents-display": {
           "semanticObject": "incidents",
           "action": "display",
           "title": "{{flpTitle}}",
           "signature": {
             "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        },
+        "incidents-display-status-new": {
+          "semanticObject": "incidents",
+          "action": "displayStatusNew",
+          "title": "{{flpTitle}}",
+          "subTitle": "{{flpSubtitleStatusNew}}",
+          "signature": {
+            "parameters": {
+              "status_code": {
+                "defaultValue": {
+                  "value": "N"
+                }
+              }
+            },
             "additionalParameters": "allowed"
           }
         }
