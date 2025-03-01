@@ -26,7 +26,6 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: incidents-auth
-      - name: incidents-auditlog
       - name: incidents-db
 
   - name: incidents
@@ -138,11 +137,6 @@ resources:
       config:
         xsappname: incidents-${org}-${space}
         tenant-mode: shared
-  - name: incidents-auditlog
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: auditlog
-      service-plan: premium
   - name: incidents-db
     type: org.cloudfoundry.managed-service
     parameters:
