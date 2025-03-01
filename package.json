@@ -79,7 +79,9 @@
       },
       "[local-multitenancy]": {
         "multitenancy": true
-      }
+      },
+      "html5-repo": true,
+      "portal": true
     },
     "profile": "with-mtx-sidecar",
     "sql": {
