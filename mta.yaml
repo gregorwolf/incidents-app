@@ -107,8 +107,7 @@ modules:
       commands:
         - npm ci
         - npm run build
-      supported-platforms:
-        []
+      supported-platforms: []
 
   - name: incidents-portal-deployer
     type: com.sap.application.content
@@ -178,7 +177,7 @@ resources:
         appName: incidents-${org}-${space}
         displayName: incidents
         description: A simple CAP project.
-        category: 'Category'
+        category: "Category"
         appUrls:
           getDependencies: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/dependencies
           onSubscription: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/tenant/{tenantId}
@@ -189,5 +188,5 @@ resources:
   - name: incidents-portal
     type: org.cloudfoundry.managed-service
     parameters:
-      service: portal
+      service: build-workzone-standard
       service-plan: standard
