@@ -1,5 +1,8 @@
 {
   "name": "incidents-mtx",
+  "engines": {
+    "node": "^20"
+  },
   "dependencies": {
     "@cap-js/hana": "^1",
     "@sap/cds": "^8",
