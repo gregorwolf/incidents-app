@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@sap/cds": ">=8",
+    "@sap/cds-mtxs": "^2",
     "express": "^4"
   },
   "devDependencies": {
@@ -66,8 +67,12 @@
             }
           }
         }
+      },
+      "[production]": {
+        "multitenancy": true
       }
-    }
+    },
+    "profile": "with-mtx-sidecar"
   },
   "private": true
 }
