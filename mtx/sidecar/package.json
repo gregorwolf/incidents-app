@@ -19,7 +19,7 @@
   "cds": {
     "profile": "mtx-sidecar",
     "requires": {
-      "audit-log": true,
+      "audit-log": false,
       "html5-repo": true,
       "portal": true
     }
