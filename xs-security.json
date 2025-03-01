@@ -21,18 +21,17 @@
     {
       "name": "support",
       "description": "generated",
-      "scope-references": [
-        "$XSAPPNAME.support"
-      ],
+      "scope-references": ["$XSAPPNAME.support"],
       "attribute-references": []
     },
     {
       "name": "admin",
       "description": "generated",
-      "scope-references": [
-        "$XSAPPNAME.admin"
-      ],
+      "scope-references": ["$XSAPPNAME.admin"],
       "attribute-references": []
     }
-  ]
+  ],
+  "oauth2-configuration": {
+    "redirect-uris": ["https://*.hana.ondemand.com/**"]
+  }
 }
