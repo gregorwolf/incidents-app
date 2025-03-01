@@ -21,7 +21,11 @@
     "requires": {
       "audit-log": false,
       "html5-repo": true,
-      "portal": true
+      "portal": {
+        "vcap": {
+          "label": "build-workzone-standard"
+        }
+      }
     }
   }
 }
