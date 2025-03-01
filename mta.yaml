@@ -27,6 +27,7 @@ modules:
     requires:
       - name: incidents-auth
       - name: incidents-db
+      - name: incidents-logging
 
   - name: incidents
     type: approuter.nodejs
@@ -52,6 +53,7 @@ modules:
       - name: incidents-auth
       - name: incidents-html5-runtime
       - name: incidents-portal
+      - name: incidents-logging
     provides:
       - name: app-api
         properties:
@@ -70,6 +72,7 @@ modules:
       - name: incidents-registry
       - name: incidents-portal
       - name: incidents-auth
+      - name: incidents-logging
     build-parameters:
       builder: npm-ci
     parameters:
@@ -178,3 +181,8 @@ resources:
     parameters:
       service: build-workzone-standard
       service-plan: standard
+  - name: incidents-logging
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-plan: lite
