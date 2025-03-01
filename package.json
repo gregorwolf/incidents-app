@@ -14,7 +14,9 @@
   "dependencies": {
     "@sap/cds": ">=8",
     "@sap/cds-mtxs": "^2",
-    "express": "^4"
+    "express": "^4",
+    "@sap/xssec": "^4",
+    "@cap-js/hana": "^1"
   },
   "devDependencies": {
     "@cap-js/audit-logging": "^0.8.0",
@@ -69,13 +71,20 @@
         }
       },
       "[production]": {
-        "multitenancy": true
+        "multitenancy": true,
+        "auth": {
+          "kind": "xsuaa"
+        },
+        "db": "hana"
       },
       "[local-multitenancy]": {
         "multitenancy": true
       }
     },
-    "profile": "with-mtx-sidecar"
+    "profile": "with-mtx-sidecar",
+    "sql": {
+      "native_hana_associations": false
+    }
   },
   "private": true
 }
