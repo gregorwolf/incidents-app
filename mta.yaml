@@ -10,6 +10,8 @@ build-parameters:
     - builder: custom
       commands:
         - npm ci
+        - mkdir -p resources
+        - cp app/portal/portal-site/CommonDataModel.json resources/cdm.json
         - npx cds build --production
 modules:
   - name: incidents-srv
@@ -68,7 +70,8 @@ modules:
         properties:
           SUBSCRIPTION_URL: ~{app-protocol}://\${tenant_subdomain}-~{app-uri}
       - name: incidents-db
-      - name: incidents-html5-runtime
+      # - name: incidents-html5-runtime
+      - name: incidents-html5-repo-host
       - name: incidents-registry
       - name: incidents-portal
       - name: incidents-auth
@@ -86,11 +89,21 @@ modules:
 
   - name: incidents-app-deployer
     type: com.sap.application.content
-    path: gen
+    path: .
     requires:
+      - name: srv-api
+      - name: incidents-auth
       - name: incidents-html5-repo-host
         parameters:
           content-target: true
+    parameters:
+      config:
+        destinations:
+          - forwardAuthToken: true
+            name: incidents-srv
+            url: ~{srv-api/srv-url}
+          - name: ui5
+            url: https://ui5.sap.com
     build-parameters:
       build-result: app/
       requires:
@@ -130,7 +143,72 @@ modules:
     deployed-after:
       - incidents-app-deployer
 
+  - name: incidents-destinationcontent
+    type: com.sap.application.content
+    build-parameters:
+      no-source: true
+    requires:
+      - name: incidents-auth
+        parameters:
+          service-key:
+            name: incidents-auth-key
+      - name: incidents-html5-repo-host
+        parameters:
+          service-key:
+            name: incidents-html5-repo-host-key
+      - name: incidents-html5-runtime
+        parameters:
+          service-key:
+            name: incidents-html5-runtime-key
+      - name: incidents-destination
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            # - Name: incidents-html5-repository
+            #   ServiceInstanceName: incidents-html5-repo-host
+            #   ServiceKeyName: incidents-html5-repo-host-key
+            #   sap.cloud.service: ns.incidents.wz
+            # - Name: incidents-auth
+            #   Authentication: OAuth2UserTokenExchange
+            #   ServiceInstanceName: incidents-auth
+            #   ServiceKeyName: incidents-auth-key
+            #   sap.cloud.service: ns.incidents.wz
+            - Name: incidents-cdm
+              ServiceInstanceName: incidents-html5-runtime
+              ServiceKeyName: incidents-html5-runtime-key
+              URL: https://html5-apps-repo-rt.${default-domain}/applications/cdm/ns.incidents.wz
 resources:
+  - name: incidents-destination
+    type: org.cloudfoundry.managed-service
+    # requires:
+    #   - name: srv-api
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        version: 1.0.0
+        # HTML5Runtime_enabled: true
+        init_data:
+          subaccount:
+            existing_destinations_policy: update
+            destinations:
+              # - Name: incidents-srv
+              #   URL: ~{srv-api/srv-url}
+              #   Authentication: NoAuthentication
+              #   Type: HTTP
+              #   ProxyType: Internet
+              #   HTML5.ForwardAuthToken: true
+              #   HTML5.DynamicDestination: true
+              - Name: incident-management-rt
+                Authentication: NoAuthentication
+                ProxyType: Internet
+                CEP.HTML5contentprovider: true
+                Type: HTTP
+                URL: https://262ed489trial.launchpad.${default-domain}
   - name: incidents-auth
     type: org.cloudfoundry.managed-service
     parameters:

@@ -7,6 +7,7 @@
     "@cap-js/hana": "^1",
     "@sap/cds": "^8",
     "@sap/cds-mtxs": "^2",
+    "@sap/xsenv": "^5.4.0",
     "@sap/xssec": "^4",
     "express": "^4"
   },
@@ -20,7 +21,15 @@
     "profile": "mtx-sidecar",
     "requires": {
       "audit-log": false,
-      "html5-repo": true,
+      "html5-host": {
+        "vcap": {
+          "label": "html5-apps-repo",
+          "plan": "app-host"
+        },
+        "subscriptionDependency": {
+          "uaa": "xsappname"
+        }
+      },
       "portal": {
         "vcap": {
           "label": "build-workzone-standard"
